@@ -1,5 +1,6 @@
 const mainContainer = document.querySelector("#main-container");
 
+var userId;
 var userName;
 var userCompany;
 var idUser;
@@ -17,6 +18,7 @@ const APIURL = 'https://api.github.com/users/lifeofsoumya';
 const getData = async(api) => {
     const response = await fetch(api)
     const data = await response.json()
+    userId = data.login;
     userName = data.name;
     userCompany = data.company;
     idUser = data.id;
@@ -89,7 +91,7 @@ const getRepo = async(api) => {
         const repos = document.createElement("div");
         repos.classList.add("all-repo");
         repos.innerHTML = `
-        <p class="each-repo">${allRepo[j]}</p>
+        <a href="https://github.com/${userId}/${allRepo[j]}" target="_blank" ><p class="each-repo">${allRepo[j]}</p></a>
         `;
         mainContainer.appendChild(repos);
     }
@@ -104,3 +106,14 @@ getRepo(REPOAPI);
 // const languageCharCount = async(api) => {
 
 // }
+
+document.querySelector("#search").addEventListener(
+    "keyup",
+    function (event) {
+        if (event.target.value != "") {
+            getMovies(SEARCHAPI + event.target.value)
+        } else {
+            getMovies(APIURL);
+        }
+    }
+)
