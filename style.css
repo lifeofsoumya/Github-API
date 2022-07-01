@@ -1,0 +1,18 @@
+body{
+    text-align: center;
+}
+img{
+    border-radius:6px;
+    border:5px solid greenyellow;
+}
+.all-repo{
+    display: inline-block;
+}
+.each-repo{
+    padding:2px 5px;
+    border: 1px solid rgb(83, 83, 83);
+    border-radius: 6px;
+    margin-right:5px;
+    cursor:pointer;
+    background-color: greenyellow;;
+}

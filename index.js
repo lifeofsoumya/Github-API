@@ -1,20 +1,34 @@
+const mainContainer = document.querySelector("#main-container");
+
+var userName;
+var userCompany;
+var idUser;
+var userBlog;
+var userAvatar;
+var repoCount;
+var followers;
+var following;
+var userType;
+var userBio;
+
+
 const APIURL = 'https://api.github.com/users/lifeofsoumya';
 
 const getData = async(api) => {
     const response = await fetch(api)
     const data = await response.json()
-    const userName = data.name;
-    const userCompany = data.company;
-    const idUser = data.id;
-    const userBlog = data.blog;
-    const usarAvtr = data.avatar_url;
-    const repoCount = data.public_repos;
-    const followers = data.followers;
-    const following = data.following;
-    const userType = data.type;
-    const userBio = data.bio;
+    userName = data.name;
+    userCompany = data.company;
+    idUser = data.id;
+    userBlog = data.blog;
+    userAvatar = data.avatar_url;
+    repoCount = data.public_repos;
+    followers = data.followers;
+    following = data.following;
+    userType = data.type;
+    userBio = data.bio;
 
-    console.log(idUser, userName, userCompany, userBlog, usarAvtr);
+    console.log(idUser, userName, userCompany, userBlog, userAvatar);
 
 }
 getData(APIURL);
@@ -56,7 +70,37 @@ const getRepo = async(api) => {
     console.log(counts)
     console.log("Stars Gained: " + allStar);
 
-    return allRepo;
+    if(userBio==null){userBio="No Bio Added"}
+
+    const box = document.createElement("div");
+    box.classList.add("avatar-img");
+    box.innerHTML = `
+    <img src="${userAvatar}" alt="Github User image" />
+    <h2>${userName}</h2>
+    <p>${userBio}</p>
+    <h4>Stars Gained: ${allStar}</h4>
+    <h4>Public Repo Count: ${repoCount}</h4>
+    <!-- <h6>Major Languages: ${allLanguages}</h6> -->
+    <h6>Public Repositories: </h6>
+    `;
+    mainContainer.appendChild(box);
+
+    for( var j =0; j<allRepo.length; j++){
+        const repos = document.createElement("div");
+        repos.classList.add("all-repo");
+        repos.innerHTML = `
+        <p class="each-repo">${allRepo[j]}</p>
+        `;
+        mainContainer.appendChild(repos);
+    }
 }
 
 getRepo(REPOAPI);
+
+
+
+// const LngApi = `https://api.github.com/repos/lifeofsoumya/${repo.name}/languages`;
+
+// const languageCharCount = async(api) => {
+
+// }
