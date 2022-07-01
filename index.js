@@ -1,5 +1,26 @@
 const mainContainer = document.querySelector("#main-container");
 
+
+var userRef;
+
+const searchOpr = async() =>{
+    userRef = document.querySelector("#user-name").value;
+let searchBtn = document.querySelector("#search-btn");
+
+await searchBtn.addEventListener("click", ()=>{
+    if(userRef.length=0){
+        console.log("abbe Yar");
+    }
+    else{
+        getData(APIURL);
+        getRepo(REPOAPI);
+    }
+})
+}
+
+searchOpr();
+
+
 var userId;
 var userName;
 var userCompany;
@@ -13,7 +34,7 @@ var userType;
 var userBio;
 
 
-const APIURL = 'https://api.github.com/users/lifeofsoumya';
+const APIURL = `https://api.github.com/users/${userRef}`;
 
 const getData = async(api) => {
     const response = await fetch(api)
@@ -30,13 +51,13 @@ const getData = async(api) => {
     userType = data.type;
     userBio = data.bio;
 
-    console.log(idUser, userName, userCompany, userBlog, userAvatar);
+    // console.log(idUser, userName, userCompany, userBlog, userAvatar);
 
 }
-getData(APIURL);
+// getData(APIURL);
 
-
-const REPOAPI = `https://api.github.com/users/lifeofsoumya/repos`;
+const REPOAPI = `https://api.github.com/users/${userRef}/repos`;
+console.log(REPOAPI);
 
 allRepo = [];
 allStar = 0;
@@ -68,9 +89,9 @@ const getRepo = async(api) => {
     //     console.log(allRepo[i] + " " + allLanguages[i])
     // }
 
-    console.log("Majorly Languages used: ");
-    console.log(counts)
-    console.log("Stars Gained: " + allStar);
+    // console.log("Majorly Languages used: ");
+    // console.log(counts)
+    // console.log("Stars Gained: " + allStar);
 
     if(userBio==null){userBio="No Bio Added"}
 
@@ -97,7 +118,7 @@ const getRepo = async(api) => {
     }
 }
 
-getRepo(REPOAPI);
+// getRepo(REPOAPI);
 
 
 
@@ -107,13 +128,5 @@ getRepo(REPOAPI);
 
 // }
 
-document.querySelector("#search").addEventListener(
-    "keyup",
-    function (event) {
-        if (event.target.value != "") {
-            getMovies(SEARCHAPI + event.target.value)
-        } else {
-            getMovies(APIURL);
-        }
-    }
-)
+
+
