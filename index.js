@@ -20,16 +20,42 @@ const getData = async(api) => {
 getData(APIURL);
 
 
-const REPOAPI = `https://api.github.com/users/${userId}/repos`;
+const REPOAPI = `https://api.github.com/users/lifeofsoumya/repos`;
+
+allRepo = [];
+allStar = 0;
+allLanguages = []
 
 const getRepo = async(api) => {
     const res = await fetch(api)
     const data = await res.json();
-    allRepo = []
+
     for (repo of data){
         allRepo.push(repo.name);
     }
-    console.log(allRepo);
+    for (repo of data){
+        allLanguages.push(repo.language);
+    }
+    for (repo of data){
+        allStar += (repo.stargazers_count);
+    }
+
+
+    const counts = {};
+    allLanguages.forEach(function (x) { counts[x] = (counts[x] || 0) + 1; });
+
+    // console.log(allRepo);
+    // console.log("Languages used: ");
+    // console.log(allLanguages);
+
+    // for(var i = 0; i<allRepo.length; i++){
+    //     console.log(allRepo[i] + " " + allLanguages[i])
+    // }
+
+    console.log("Majorly Languages used: ");
+    console.log(counts)
+    console.log("Stars Gained: " + allStar);
+
     return allRepo;
 }
 
