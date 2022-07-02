@@ -1,18 +1,23 @@
 const mainContainer = document.querySelector("#main-container");
+const userContainer = document.querySelector("#user-container");
 
 
 var userRef;
 
 const searchOpr = async() =>{
-    userRef = document.querySelector("#user-name").value;
-let searchBtn = document.querySelector("#search-btn");
+    userRef = document.querySelector(".user-name").value;
+    let searchBtn = document.querySelector("#search-btn");
 
 await searchBtn.addEventListener("click", ()=>{
     if(userRef.length=0){
         console.log("abbe Yar");
     }
     else{
+        userContainer.innerHTML=""; // setting the div value to blank div
+
+        APIURL = `https://api.github.com/users/lifeofsoumya`;
         getData(APIURL);
+        REPOAPI = `https://api.github.com/users/lifeofsoumya/repos`;
         getRepo(REPOAPI);
     }
 })
@@ -34,7 +39,7 @@ var userType;
 var userBio;
 
 
-const APIURL = `https://api.github.com/users/${userRef}`;
+var APIURL = `https://api.github.com/users/lifeofsoumya`;
 
 const getData = async(api) => {
     const response = await fetch(api)
@@ -56,7 +61,7 @@ const getData = async(api) => {
 }
 // getData(APIURL);
 
-const REPOAPI = `https://api.github.com/users/${userRef}/repos`;
+var REPOAPI = `https://api.github.com/users/lifeofsoumya/repos`;
 console.log(REPOAPI);
 
 allRepo = [];
@@ -106,7 +111,7 @@ const getRepo = async(api) => {
     <!-- <h6>Major Languages: ${allLanguages}</h6> -->
     <h6>Public Repositories: </h6>
     `;
-    mainContainer.appendChild(box);
+    userContainer.appendChild(box);
 
     for( var j =0; j<allRepo.length; j++){
         const repos = document.createElement("div");
@@ -114,8 +119,14 @@ const getRepo = async(api) => {
         repos.innerHTML = `
         <a href="https://github.com/${userId}/${allRepo[j]}" target="_blank" ><p class="each-repo">${allRepo[j]}</p></a>
         `;
-        mainContainer.appendChild(repos);
+        userContainer.appendChild(repos);
     }
+
+    // resetting variable values back to init
+    allRepo = [];
+    allStar = 0;
+    allLanguages = []
+
 }
 
 // getRepo(REPOAPI);
